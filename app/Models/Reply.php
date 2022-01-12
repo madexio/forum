@@ -10,8 +10,15 @@ class Reply extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function thread(): BelongsTo
     {
         return $this->belongsTo(Thread::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }
