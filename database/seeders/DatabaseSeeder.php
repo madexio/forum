@@ -18,6 +18,6 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         #User::factory(10)->create();
-        Reply::factory()->create();
+        Reply::factory(10)->create();
     }
 }
