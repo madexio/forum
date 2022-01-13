@@ -10,6 +10,10 @@
                     <div class="card-body">
                         <article>
                             <div class="body">{{$thread->body}}</div>
+                            <div class="small border-bottom pt-1">
+                                Created
+                                by @include("threads._author", ["type"=>"post"]) {{$thread->created_at->diffForHumans()}}
+                            </div>
                         </article>
                     </div>
                 </div>
@@ -17,20 +21,40 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">Replies</div>
+
                             <div class="card-body">
                                 @foreach($thread->replies as $reply)
-                                    <article class="border-top pt-4 pb-4">
-                                        <div class="body">{{$reply->body}}</div>
-                                        <div class="pt-2">
-                                            <div class="small">By: <a href="#">{{$reply->user->name}}</a></div>
-                                            <div class="small">Created: {{$reply->created_at->diffForHumans()}}</div>
-                                        </div>
-                                    </article>
+                                    @include("threads._reply")
                                 @endforeach
                             </div>
                         </div>
                     </div>
                 </div>
+                @auth
+                    <div class="row justify-content-center pt-4">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">Add Reply</div>
+                                <div class="card-body col-2">
+                                    <form action="/threads/{{$thread->id}}/replies"
+                                          method="post">
+                                        @csrf
+                                        <textarea name="body"
+                                                  id="body"
+                                                  type="text"
+                                                  rows=3
+                                                  style="width: 750%"
+                                                  placeholder="Insert comment here"> </textarea>
+
+                                        <button type="submit"
+                                                class="saas-button">Submit
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endauth
             </div>
         </div>
     </div>

@@ -38,4 +38,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Thread::class);
     }
+
+    public function replies(): HasMany
+    {
+        return $this->hasMany(Reply::class);
+    }
 }

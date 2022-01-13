@@ -12,9 +12,12 @@
                                 <a href="/threads/{{$thread->id}}">
                                     <h4>{{$thread->title}}</h4>
                                 </a>
+
                                 <div class="body">{{$thread->body}}</div>
+                                <div class="small pt-1 border-bottom mb-4">
+                                    Created by @include("threads._author", ["type"=>"post"])  {{$thread->created_at->diffForHumans()}}
+                                </div>
                             </article>
-                            <hr>
                         @endforeach
                     </div>
                 </div>

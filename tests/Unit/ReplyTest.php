@@ -19,9 +19,14 @@ class ReplyTest extends TestCase
         $this->reply = Reply::factory()->create();
     }
     /** @test **/
-    public function has_an_owner()
+    public function has_an_user()
     {
         $this->assertInstanceOf(User::class, $this->reply->user);
+    }
+
+    /** @test */
+    public function has_a_thread()
+    {
         $this->assertInstanceOf(Thread::class, $this->reply->thread);
     }
 
