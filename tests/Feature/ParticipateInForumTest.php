@@ -31,4 +31,14 @@ class ParticipateInForumTest extends TestCase
         $this->post("/threads/{$thread->channel->slug}/{$thread->id}/replies", $reply->toArray());
         $this->get("/threads/{$thread->channel->slug}/{$thread->id}")->assertSee($reply->body);
     }
+
+    /** @test */
+    public function a_reply_requires_a_body()
+    {
+        $this->signIn();
+        $thread = Thread::factory()->create();
+        $reply = Reply::factory()->make(["body"=>null]);
+
+        $this->post("/threads/{$thread->channel->slug}/{$thread->id}/replies")->assertSessionHasErrors("body");
+    }
 }
