@@ -24,7 +24,7 @@ class ParticipateInForumTest extends TestCase
     /** @test */
     public function auth_user_may_participate_in_thread()
     {
-        $this->be(User::factory()->create());
+        $this->signIn();
         $thread = Thread::factory()->create();
         $reply = Reply::factory()->create();
         $this->post("/threads/$thread->id/replies", $reply->toArray());

@@ -24,7 +24,7 @@ class CreateThreadsTest extends TestCase
     /** @test */
     public function an_authenticated_user_can_create_thread()
     {
-        $this->actingAs(User::factory()->create());
+        $this->signIn();
         $thread = Thread::factory()->make();
         $this->post("/threads", $thread->toArray());
         $this->get("/threads/$thread->id")->assertSee($thread->title)->assertSee($thread->body);
