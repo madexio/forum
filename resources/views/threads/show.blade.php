@@ -17,6 +17,7 @@
                         </article>
                     </div>
                 </div>
+                @if ($thread->replies->count() > 0)
                 <div class="row justify-content-center pt-4">
                     <div class="col-md-12">
                         <div class="card">
@@ -30,12 +31,13 @@
                         </div>
                     </div>
                 </div>
+                @endif
                 @auth
                     <div class="row justify-content-center pt-4">
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header">Add Reply</div>
-                                <div class="card-body col-2">
+                                <div class="card-body">
                                     <form action="/threads/{{$thread->id}}/replies"
                                           method="post">
                                         @csrf
@@ -43,11 +45,11 @@
                                                   id="body"
                                                   type="text"
                                                   rows=3
-                                                  style="width: 750%"
+                                                  class="form-control mb-2"
                                                   placeholder="Insert comment here"> </textarea>
 
                                         <button type="submit"
-                                                class="saas-button">Submit
+                                                class="btn btn-primary">Submit
                                         </button>
                                     </form>
                                 </div>
