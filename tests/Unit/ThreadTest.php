@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Models\Channel;
 use App\Models\Reply;
 use App\Models\Thread;
 use App\Models\User;
@@ -41,5 +42,12 @@ class ThreadTest extends TestCase
         ]);
         $temp = $this->thread[0]->replies;
         $this->assertCount(1, $this->thread[0]->replies);
+    }
+
+    /** @test */
+    public function a_thread_belongs_to_a_channel()
+    {
+        $thread = Thread::factory()->create();
+        $this->assertInstanceOf(Channel::class, $thread->channel);
     }
 }

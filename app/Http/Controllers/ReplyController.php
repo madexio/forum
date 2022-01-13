@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Channel;
 use App\Models\Thread;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -9,7 +10,7 @@ use Illuminate\Http\Request;
 class ReplyController extends Controller
 {
 
-    public function store(Thread $thread): RedirectResponse
+    public function store(String $channel_slug, Thread $thread): RedirectResponse
     {
         $thread->addReply([
             "body"=>request("body"),

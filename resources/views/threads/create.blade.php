@@ -24,6 +24,12 @@
                             <button type="submit"
                                     class="btn btn-primary">Publish
                             </button>
+                            <label for="channel_id">Channel:</label>
+                            <select id="channel_id" name="channel_id">
+                                @foreach($channels as $channel)
+                                    <option value="{{$channel->id}}">{{$channel->name}}</option>
+                                @endforeach
+                            </select>
                         </form>
                     </div>
                 </div>

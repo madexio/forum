@@ -38,7 +38,7 @@
                             <div class="card">
                                 <div class="card-header">Add Reply</div>
                                 <div class="card-body">
-                                    <form action="/threads/{{$thread->id}}/replies"
+                                    <form action="/threads/{{$thread->channel->slug}}/{{$thread->id}}/replies"
                                           method="post">
                                         @csrf
                                         <textarea name="body"

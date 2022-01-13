@@ -27,5 +27,5 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get("/threads", [ThreadController::class, "index"]);
 Route::get("/threads/create", [ThreadController::class, "create"])->middleware("auth");
 Route::post("/threads", [ThreadController::class, "store"])->middleware("auth");
-Route::get("/threads/{thread}", [ThreadController::class, "show"]);
-Route::post("/threads/{thread}/replies", [ReplyController::class, "store"])->middleware("auth");
+Route::get("/threads/{channel:slug}/{thread}", [ThreadController::class, "show"]);
+Route::post("/threads/{channel:slug}/{thread}/replies", [ReplyController::class, "store"])->middleware("auth");

@@ -34,7 +34,7 @@ class ReadThreadsTest extends TestCase
     {
         $thread = $this->threads[0];
 
-        $response = $this->get("/threads/{$thread->id}");
+        $response = $this->get("/threads/{$thread->channel->slug}/{$thread->id}");
         $response->assertSee($thread->title);
     }
 
@@ -43,7 +43,7 @@ class ReadThreadsTest extends TestCase
     {
         $thread = $this->threads[0];
 
-        $response = $this->get("/threads/{$thread->id}");
+        $response = $this->get("/threads/{$thread->channel->slug}/{$thread->id}");
         foreach ($this->replies as $reply)
         {
             $response->assertSee($reply->body);
@@ -55,7 +55,7 @@ class ReadThreadsTest extends TestCase
     {
         $thread = $this->threads[1];
         $reply_in_thread = Reply::factory()->create(["thread_id" => $thread]);
-        $response = $this->get("/threads/{$thread->id}");
+        $response = $this->get("/threads/{$thread->channel->slug}/{$thread->id}");
         foreach ($this->replies as $reply)
         {
             $response->assertDontSee($reply->body);

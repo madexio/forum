@@ -18,7 +18,8 @@ class ParticipateInForumTest extends TestCase
     {
         $this->expectException(AuthenticationException::class);
         $this->withoutExceptionHandling();
-        $this->post("/threads/1/replies");
+        $thread = Thread::factory()->create();
+        $this->post("/threads/{$thread->channel->slug}/{$thread->id}/replies");
     }
 
     /** @test */
@@ -27,7 +28,7 @@ class ParticipateInForumTest extends TestCase
         $this->signIn();
         $thread = Thread::factory()->create();
         $reply = Reply::factory()->create();
-        $this->post("/threads/$thread->id/replies", $reply->toArray());
-        $this->get("/threads/$thread->id")->assertSee($reply->body);
+        $this->post("/threads/{$thread->channel->slug}/{$thread->id}/replies", $reply->toArray());
+        $this->get("/threads/{$thread->channel->slug}/{$thread->id}")->assertSee($reply->body);
     }
 }
