@@ -21,7 +21,11 @@ class ThreadController extends Controller
 
     public function store(Request $request)
     {
-        //
+        Thread::factory()->create([
+            "user_id" => auth()->id(),
+            "title"=>request("title"),
+            "body"=>request("body")
+        ]);
     }
 
     public function show(Thread $thread)
