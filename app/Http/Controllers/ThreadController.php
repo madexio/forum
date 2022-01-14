@@ -16,8 +16,7 @@ class ThreadController extends Controller
 
     public function create()
     {
-        $channels = Channel::latest()->get();
-        return view("threads.create")->with("channels", $channels);
+        return view("threads.create");
     }
 
 
