@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChannelController;
 use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\ThreadController;
 use Illuminate\Support\Facades\Route;
@@ -28,4 +29,5 @@ Route::get("/threads", [ThreadController::class, "index"]);
 Route::get("/threads/create", [ThreadController::class, "create"])->middleware("auth");
 Route::post("/threads", [ThreadController::class, "store"])->middleware("auth");
 Route::get("/threads/{channel:slug}/{thread}", [ThreadController::class, "show"]);
+Route::get("/threads/{channel:slug}", [ChannelController::class, "show"]);
 Route::post("/threads/{channel:slug}/{thread}/replies", [ReplyController::class, "store"])->middleware("auth");

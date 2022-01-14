@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Channel;
 use App\Models\Reply;
 use App\Models\Thread;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -53,13 +54,24 @@ class ReadThreadsTest extends TestCase
     /** @test */
     public function it_does_not_show_other_thread_replies()
     {
-        $thread = $this->threads[1];
+        $thread          = $this->threads[1];
         $reply_in_thread = Reply::factory()->create(["thread_id" => $thread]);
-        $response = $this->get("/threads/{$thread->channel->slug}/{$thread->id}");
+        $response        = $this->get("/threads/{$thread->channel->slug}/{$thread->id}");
         foreach ($this->replies as $reply)
         {
             $response->assertDontSee($reply->body);
         }
         $response->assertSee($reply_in_thread->body);
+    }
+
+    /** @test */
+    public function a_user_can_filter_threads_according_to_channel()
+    {
+        $channel            = Channel::factory()->create();
+        $threadChannel      = Thread::factory()->create(["channel_id" => $channel->id]);
+        $threadNotInChannel = Thread::factory()->create();
+        $this->get("/threads/$channel->slug")
+            ->assertSee($threadChannel->title)
+            ->assertDontSee($threadNotInChannel->title);
     }
 }
