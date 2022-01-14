@@ -91,6 +91,7 @@ class ReadThreadsTest extends TestCase
     /** @test */
     public function a_user_can_filter_by_other_username()
     {
+        $this->withoutExceptionHandling();
         $this->signIn(User::factory()->create(["name"=>"JohnDoe"]));
         $other = User::factory()->create(["name"=>"JaneDoe"]);
         $threadNotByOther = Thread::factory()->create(["user_id" => $other->id]);
@@ -104,6 +105,7 @@ class ReadThreadsTest extends TestCase
     /** @test */
     public function an_unauthenticated_user_can_filter_by_other_username()
     {
+        $this->withoutExceptionHandling();
         $other = User::factory()->create(["name"=>"JaneDoe"]);
         $thread = Thread::factory()->create(["user_id" => $other->id]);
 

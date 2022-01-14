@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\ThreadFilters;
 use App\Models\Channel;
 use App\Models\Thread;
 use App\Models\User;
@@ -9,14 +10,10 @@ use Illuminate\Http\Request;
 
 class ThreadController extends Controller
 {
-    public function index()
+    public function index(ThreadFilters $filters)
     {
         $threads = Thread::latest();
-        if ($username = request("by")){
-            $user = User::where("name", $username)->first();
-            $threads->where("user_id", $user->id);
-        }
-        $threads = $threads->get();
+        $threads = $threads->filter($filters)->get();
         return view("threads.index")->with("threads", $threads);
 
     }
