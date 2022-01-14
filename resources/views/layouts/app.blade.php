@@ -58,6 +58,11 @@
                                        href="/threads/create">Create
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link"
+                                       href="/threads?by={{auth()->user()->name}}">My Threads
+                                    </a>
+                                </li>
                             @endauth
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle"

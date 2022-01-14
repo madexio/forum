@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Channel;
 use App\Models\Reply;
 use App\Models\Thread;
+use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -73,5 +74,40 @@ class ReadThreadsTest extends TestCase
         $this->get("/threads/$channel->slug")
             ->assertSee($threadChannel->title)
             ->assertDontSee($threadNotInChannel->title);
+    }
+
+    /** @test */
+    public function a_user_can_filter_by_own_username()
+    {
+        $this->signIn(User::factory()->create(["name"=>"JohnDoe"]));
+        $threadByUser = Thread::factory()->create(["user_id" => auth()->id()]);
+        $threadNotByUser = Thread::factory()->create();
+
+        $this->get("threads?by=JohnDoe")
+            ->assertSee($threadByUser->title)
+            ->assertDontSee($threadNotByUser->title);
+    }
+
+    /** @test */
+    public function a_user_can_filter_by_other_username()
+    {
+        $this->signIn(User::factory()->create(["name"=>"JohnDoe"]));
+        $other = User::factory()->create(["name"=>"JaneDoe"]);
+        $threadNotByOther = Thread::factory()->create(["user_id" => $other->id]);
+        $threadByOther = Thread::factory()->create(["user_id" => auth()->user()->id]);
+
+        $this->get("threads?by=JaneDoe")
+            ->assertSee($threadNotByOther->title)
+            ->assertDontSee($threadByOther->title);
+    }
+
+    /** @test */
+    public function an_unauthenticated_user_can_filter_by_other_username()
+    {
+        $other = User::factory()->create(["name"=>"JaneDoe"]);
+        $thread = Thread::factory()->create(["user_id" => $other->id]);
+
+        $this->get("threads?by=JaneDoe")
+            ->assertSee($thread->title);
     }
 }
