@@ -17,15 +17,16 @@ class ReadThreadsTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->threads = Thread::factory(2)->create();
-        $this->replies = Reply::factory(2)->create(["thread_id" => $this->threads[0]]);
+        $this->thread = Thread::factory()->create();
+        //$this->replies = Reply::factory()->create(["thread_id" => $this->threads[0]]);
     }
 
     /** @test * */
     public function view_all_threads()
     {
+        $threads = Thread::factory(2)->create();
         $response = $this->get('/threads');
-        foreach ($this->threads as $thread)
+        foreach ($threads as $thread)
         {
             $response->assertSee($thread->title);
         }
@@ -34,7 +35,7 @@ class ReadThreadsTest extends TestCase
     /** @test * */
     public function view_single_thread()
     {
-        $thread = $this->threads[0];
+        $thread = $this->thread;
 
         $response = $this->get("/threads/{$thread->channel->slug}/{$thread->id}");
         $response->assertSee($thread->title);
@@ -43,10 +44,11 @@ class ReadThreadsTest extends TestCase
     /** @test * */
     public function view_replies_of_thread()
     {
-        $thread = $this->threads[0];
+        $thread = $this->thread;
+        $replies=Reply::factory(2)->create(["thread_id" => $thread->id]);
 
         $response = $this->get("/threads/{$thread->channel->slug}/{$thread->id}");
-        foreach ($this->replies as $reply)
+        foreach ($replies as $reply)
         {
             $response->assertSee($reply->body);
         }
@@ -55,10 +57,11 @@ class ReadThreadsTest extends TestCase
     /** @test */
     public function it_does_not_show_other_thread_replies()
     {
-        $thread          = $this->threads[1];
+        $thread          = $this->thread;
+        $replies = Reply::factory(2)->create();
         $reply_in_thread = Reply::factory()->create(["thread_id" => $thread]);
         $response        = $this->get("/threads/{$thread->channel->slug}/{$thread->id}");
-        foreach ($this->replies as $reply)
+        foreach ($replies as $reply)
         {
             $response->assertDontSee($reply->body);
         }
@@ -111,5 +114,21 @@ class ReadThreadsTest extends TestCase
 
         $this->get("threads?by=JaneDoe")
             ->assertSee($thread->title);
+    }
+
+    /** @test */
+    public function a_user_can_filter_threads_by_number_of_replies()
+    {
+        $threadWithThreeReplies = Thread::factory()->create();
+        $threadWithTwoReplies = Thread::factory()->create();
+//        $threadWithOneReplies = Thread::factory()->create();
+
+        Reply::factory(3)->create(["thread_id" => $threadWithThreeReplies->id]);
+        Reply::factory(2)->create(["thread_id" => $threadWithTwoReplies->id]);
+        Reply::factory(1)->create(["thread_id" => $this->thread->id]);
+
+        $response = $this->getJson("threads?popular=1")->json();
+
+        $this->assertEquals([3, 2, 1], array_column($response, "replies_count"));
     }
 }

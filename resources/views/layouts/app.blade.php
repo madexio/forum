@@ -24,6 +24,22 @@
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}"
               rel="stylesheet">
+        <style>
+            /*body {padding-bottom: 100px}*/
+            a {
+                color: dodgerblue;
+                text-decoration: none;
+            }
+
+            .level {
+                display: flex;
+                align-items: center;
+            }
+
+            .flex {
+                flex: 1;
+            }
+        </style>
     </head>
     <body>
         <div id="app">
@@ -47,23 +63,42 @@
                          id="navbarSupportedContent">
                         <!-- Left Side Of Navbar -->
                         <ul class="navbar-nav me-auto">
-                            <li class="nav-item">
-                                <a class="nav-link"
-                                   href="/threads">All Threads
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle"
+                                   href="#"
+                                   id="navbarDarkDropdownMenuLink"
+                                   role="button"
+                                   data-bs-toggle="dropdown"
+                                   aria-expanded="false">
+                                    Threads
                                 </a>
+                                <ul class="dropdown-menu dropdown-menu-dark"
+                                    aria-labelledby="navbarDarkDropdownMenuLink">
+                                    <li>
+                                        <a class="dropdown-item"
+                                           href="/threads">All Threads
+                                        </a>
+                                    </li>
+                                    @auth
+                                        <li>
+                                            <a class="dropdown-item"
+                                               href="/threads?by={{auth()->user()->name}}">My Threads
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item"
+                                               href="/threads/create">Create
+                                            </a>
+                                        </li>
+                                    @endauth
+                                    <li>
+                                        <a class="dropdown-item"
+                                           href="/threads?popular=1">Popular
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
-                            @auth
-                                <li class="nav-item">
-                                    <a class="nav-link"
-                                       href="/threads/create">Create
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link"
-                                       href="/threads?by={{auth()->user()->name}}">My Threads
-                                    </a>
-                                </li>
-                            @endauth
+
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle"
                                    href="#"
@@ -116,9 +151,9 @@
                                         {{ Auth::user()->name }}
                                     </a>
 
-                                    <div class="dropdown-menu dropdown-menu-right"
+                                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-dark"
                                          aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item"
+                                        <a class="dropdown-item  "
                                            href="{{ route('logout') }}"
                                            onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

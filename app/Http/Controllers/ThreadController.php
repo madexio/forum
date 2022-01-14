@@ -14,6 +14,9 @@ class ThreadController extends Controller
     {
         $threads = Thread::latest();
         $threads = $threads->filter($filters)->get();
+        if (request()->wantsJson()){
+            return $threads;
+        }
         return view("threads.index")->with("threads", $threads);
 
     }
