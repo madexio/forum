@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ChannelController;
+use App\Http\Controllers\FavouritesController;
 use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\ThreadController;
 use Illuminate\Support\Facades\Route;
@@ -31,3 +32,4 @@ Route::post("/threads", [ThreadController::class, "store"])->middleware("auth");
 Route::get("/threads/{channel:slug}/{thread}", [ThreadController::class, "show"]);
 Route::get("/threads/{channel:slug}", [ChannelController::class, "show"]);
 Route::post("/threads/{channel:slug}/{thread}/replies", [ReplyController::class, "store"])->middleware("auth");
+Route::post("/replies/{reply}/favourites", [FavouritesController::class, "store"])->middleware("auth");

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
  * App\Models\Reply
@@ -43,5 +44,20 @@ class Reply extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function favourites(): MorphMany
+    {
+        return $this->morphMany(Favourite::class, "favourited");
+    }
+
+    public function favourite()
+    {
+        $attributes = ["user_id" => auth()->id()];
+
+        if (! $this->favourites()->where($attributes)->exists())
+        {
+            return $this->favourites()->create(["user_id" => auth()->user()->id]);
+        }
     }
 }
