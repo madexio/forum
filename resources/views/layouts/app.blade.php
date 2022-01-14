@@ -47,6 +47,11 @@
                          id="navbarSupportedContent">
                         <!-- Left Side Of Navbar -->
                         <ul class="navbar-nav me-auto">
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                   href="/threads">All Threads
+                                </a>
+                            </li>
                             @auth
                                 <li class="nav-item">
                                     <a class="nav-link"
