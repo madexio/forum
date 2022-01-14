@@ -15,7 +15,7 @@
 
                                 <div class="body">{{$thread->body}}</div>
                                 <div class="small pt-1 border-bottom mb-4">
-                                    Created by @include("threads._author", ["type"=>"post"])  {{$thread->created_at->diffForHumans()}}
+                                    Created by @include("threads._details", ["type"=>"post"])  {{$thread->created_at->diffForHumans()}}
                                 </div>
                             </article>
                         @endforeach

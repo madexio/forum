@@ -9,13 +9,13 @@
                     <div class="card-body">
                         @foreach ($threads as $thread)
                             <article>
-                                <a href="/threads/{{$thread->channel->slug}}/{{$thread->id}}">
+                                <a href="/threads/{{$thread->channel->slug}}/{{$thread->id}}" class="card-link">
                                     <h4>{{$thread->title}}</h4>
                                 </a>
 
                                 <div class="body">{{$thread->body}}</div>
                                 <div class="small pt-1 border-bottom mb-4">
-                                    Created by @include("threads._author", ["type"=>"post"])  {{$thread->created_at->diffForHumans()}}
+                                    Created by @include("threads._details", ["type"=>"index"])  {{$thread->created_at->diffForHumans()}}
                                 </div>
                             </article>
                         @endforeach

@@ -23,7 +23,7 @@ class ThreadFactory extends Factory
                 return Channel::factory()->create();
             },
             "title"  => $this->faker->sentence(),
-            "body"   => $this->faker->paragraph(),
+            "body"   => $this->faker->paragraph(20),
         ];
     }
 }

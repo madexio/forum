@@ -44,7 +44,8 @@ class ThreadController extends Controller
 
     public function show(String $channel_slug, Thread $thread)
     {
-        return view("threads.show")->with("thread", $thread);
+        $replies = $thread->replies()->paginate(5);
+        return view("threads.show")->with(["thread"=>$thread->load("replies"),"replies"=>$replies, "slug"=>$channel_slug]);
     }
 
     public function edit(Thread $thread)

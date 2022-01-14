@@ -19,8 +19,9 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         Channel::factory(5)->create();
-        //$user = User::factory()->create();
-        $thread = Thread::factory(10)->create();
-        //Reply::factory(10)->create(["user_id"=>$user, "thread_id"=>$thread[0]]);
+        $threads = Thread::factory(10)->create();
+        foreach($threads as $thread){
+            Reply::factory(10)->create(["thread_id" => $thread->id]);
+        }
     }
 }
