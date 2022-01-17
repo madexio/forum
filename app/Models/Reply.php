@@ -55,9 +55,14 @@ class Reply extends Model
     {
         $attributes = ["user_id" => auth()->id()];
 
-        if (! $this->favourites()->where($attributes)->exists())
+        if (!  $this->favourites()->where($attributes)->exists())
         {
             return $this->favourites()->create(["user_id" => auth()->user()->id]);
         }
+    }
+
+    public function isFavourited(): bool
+    {
+        return $this->favourites()->where("user_id", auth()->id())->exists();
     }
 }
