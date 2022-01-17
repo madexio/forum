@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * App\Models\Reply
@@ -54,10 +55,10 @@ class Reply extends Model
     public function favourite()
     {
         $attributes = ["user_id" => auth()->id()];
-
-        if (!  $this->favourites()->where($attributes)->exists())
+        $favourites = $this->favourites();
+        if (!$favourites->where($attributes)->exists())
         {
-            return $this->favourites()->create(["user_id" => auth()->user()->id]);
+            return $favourites->create(["user_id" => auth()->user()->id]);
         }
     }
 

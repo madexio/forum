@@ -13,7 +13,7 @@
                     <button type="submit"
                             class="btn btn-outline-secondary"
                             {{$reply->isFavourited() ? "disabled" : ""}}>
-                        {{$reply->favourites()->count()}} {{Str::plural("favourite", $reply->favourites()->count())}}
+                        {{$reply->favourites_count}} {{Str::plural("favourite", $reply->favourites_count)}}
                     </button>
                 </form>
             </div>

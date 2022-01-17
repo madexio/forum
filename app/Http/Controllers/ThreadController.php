@@ -12,8 +12,11 @@ class ThreadController extends Controller
 {
     public function index(ThreadFilters $filters)
     {
-        $threads = Thread::latest();
-        $threads = $threads->filter($filters)->get();
+        $threads = Thread::latest()
+            ->with("user")
+            ->with("channel")
+            ->with("replies")
+            ->filter($filters)->get();
         if (request()->wantsJson()){
             return $threads;
         }
@@ -48,7 +51,10 @@ class ThreadController extends Controller
     public function show(String $channel_slug, Thread $thread)
     {
         $replies = $thread->replies()->paginate(5);
-        return view("threads.show")->with(["thread"=>$thread, "replies"=>$replies, "slug"=>$channel_slug]);
+        return view("threads.show")->with([
+            "thread"=>$thread,
+            "replies"=>$replies,
+            "slug"=>$channel_slug]);
     }
 
     public function edit(Thread $thread)
