@@ -36,6 +36,8 @@ class Reply extends Model
     use HasFactory;
 
     protected $guarded = [];
+    protected $with = ["user", "favourites"];
+    protected $withCount = ["favourites"];
 
     public function thread(): BelongsTo
     {
@@ -54,9 +56,8 @@ class Reply extends Model
 
     public function favourite()
     {
-        $attributes = ["user_id" => auth()->id()];
         $favourites = $this->favourites();
-        if (!$favourites->where($attributes)->exists())
+        if (!$this->isFavourited())
         {
             return $favourites->create(["user_id" => auth()->user()->id]);
         }
@@ -64,6 +65,6 @@ class Reply extends Model
 
     public function isFavourited(): bool
     {
-        return $this->favourites()->where("user_id", auth()->id())->exists();
+        return $this->favourites->where("user_id", auth()->id())->count() > 0;
     }
 }

@@ -39,14 +39,8 @@ class Thread extends Model
     use HasFactory;
 
     protected $guarded = [];
-
-    protected static function boot()
-    {
-        parent::boot();
-        static::addGlobalScope('replyCount', function ($builder) {
-            $builder->withCount('replies');
-        });
-    }
+    protected $with = ["user", "channel"];
+    protected $withCount = ["replies"];
 
     public function user(): BelongsTo
     {
@@ -60,10 +54,7 @@ class Thread extends Model
 
     public function replies(): HasMany
     {
-        return $this->hasMany(Reply::class)
-            ->withCount("favourites")
-            ->with("favourites")
-            ->with("user");
+        return $this->hasMany(Reply::class);
     }
 
     public function addReply($reply)

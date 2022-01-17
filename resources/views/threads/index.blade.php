@@ -14,7 +14,7 @@
                                         <h4>{{$thread->title}}</h4>
                                     </a>
                                     <a href="/threads/{{$thread->channel->slug}}/{{$thread->id}}">
-                                    <strong>{{$thread->replies->count()}} {{Str::plural("comment", $thread->replies->count())}}</strong>
+                                    <strong>{{$thread->replies_count}} {{Str::plural("comment", $thread->replies_count)}}</strong>
                                     </a>
                                 </div>
 
