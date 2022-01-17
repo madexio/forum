@@ -6,6 +6,7 @@ use App\Filters\ThreadFilters;
 use App\Models\Channel;
 use App\Models\Thread;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class ThreadsController extends Controller
@@ -64,8 +65,14 @@ class ThreadsController extends Controller
         //
     }
 
-    public function destroy(Thread $thread)
+    public function destroy(String $channel_slug, Thread $thread)
     {
-        //
+        $thread->replies()->delete();
+        $thread->delete();
+        if (request()->wantsJson())
+        {
+            return response([], 204);
+        }
+        return redirect("/threads");
     }
 }

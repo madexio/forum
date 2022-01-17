@@ -5,7 +5,22 @@
         <div class="row justify-content-start">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">{{$thread->title}}</div>
+                    <div class="card-header">
+
+                        <div class="level">
+                            <span class="flex">
+                                {{$thread->title}}
+                            </span>
+                            <form action="/threads/{{$thread->channel->slug}}/{{$thread->id}}"
+                                  method="post">
+                                @csrf
+                                {{method_field("DELETE")}}
+                                <button type="submit"
+                                        class="btn btn-link">Delete Post
+                                </button>
+                            </form>
+                        </div>
+                    </div>
 
                     <div class="card-body">
                         <article>

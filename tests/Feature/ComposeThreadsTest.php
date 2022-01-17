@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 
 use App\Models\Channel;
+use App\Models\Reply;
 use App\Models\Thread;
 use App\Models\User;
 use Illuminate\Auth\AuthenticationException;
@@ -11,7 +12,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
 
-class CreateThreadsTest extends TestCase
+class ComposeThreadsTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -53,6 +54,38 @@ class CreateThreadsTest extends TestCase
         Channel::factory()->create();
         $this->publishThread(["channel_id" => null])->assertSessionHasErrors("channel_id");
         $this->publishThread(["channel_id" => 999])->assertSessionHasErrors("channel_id");
+    }
+
+    /** @test */
+    public function it_can_be_deleted()
+    {
+        $threadToBeDeleted = Thread::factory()->create();
+        $this->assertEquals(1, Thread::count());
+        $threadToBeDeleted->delete();
+        $this->assertEquals(0, Thread::count());
+    }
+
+    /** @test */
+    public function it_can_be_deleted_by_auth_user()
+    {
+        $this->signIn();
+        $threadToBeDeleted = Thread::factory()->create();
+        Reply::factory()->create(["thread_id" => $threadToBeDeleted->id]);
+        $this->assertEquals(1, Thread::count());
+        $this->assertEquals(1, Reply::count());
+        $this->json("DELETE", "threads/{$threadToBeDeleted->channel->slug}/$threadToBeDeleted->id", $threadToBeDeleted->toArray());
+        $this->assertEquals(0, Thread::count());
+        $this->assertEquals(0, Reply::count());
+
+    }
+
+    /** @test */
+    public function it_cannot_be_deleted_by_unauthenticated_user()
+    {
+        $threadToBeDeleted = Thread::factory()->create();
+        $this->assertEquals(1, Thread::count());
+        $this->json("DELETE", "threads/{$threadToBeDeleted->channel->slug}/$threadToBeDeleted->id", $threadToBeDeleted->toArray());
+        $this->assertEquals(1, Thread::count());
     }
 
     public function publishThread($overrides = []): TestResponse
