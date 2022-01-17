@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Channel;
 use App\Models\Thread;
 
-class ChannelController extends Controller
+class ChannelsController extends Controller
 {
     public function show(String $channel_slug){
         $threads = Channel::whereSlug($channel_slug)->first()->threads()->latest()->get();
-        return view("threads.channel.show")->with("threads", $threads);
+        return view("threads.channels.show")->with("threads", $threads);
     }
 }

@@ -7,7 +7,7 @@ use App\Models\Thread;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
-class ReplyController extends Controller
+class RepliesController extends Controller
 {
 
     public function store(String $channel_slug, Thread $thread): RedirectResponse

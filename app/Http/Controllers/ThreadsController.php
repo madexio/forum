@@ -8,7 +8,7 @@ use App\Models\Thread;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class ThreadController extends Controller
+class ThreadsController extends Controller
 {
     public function index(ThreadFilters $filters)
     {
