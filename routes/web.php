@@ -31,6 +31,7 @@ Route::get("/threads", [ThreadsController::class, "index"]);
 Route::get("/threads/create", [ThreadsController::class, "create"])->middleware("auth");
 Route::post("/threads", [ThreadsController::class, "store"])->middleware("auth");
 Route::get("/threads/{channel:slug}/{thread}", [ThreadsController::class, "show"]);
+Route::delete("/threads/{channel:slug}/{thread}", [ThreadsController::class, "destroy"])->middleware("auth");
 
 Route::get("/threads/{channel:slug}", [ChannelsController::class, "show"]);
 
