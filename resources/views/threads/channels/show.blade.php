@@ -7,15 +7,15 @@
                 <div class="card">
                     <div class="card-header">Forum Threads</div>
                     <div class="card-body">
-                        @forelse ($threads as $activity)
+                        @forelse ($threads as $thread)
                             <article>
-                                <a href="/threads/{{$activity->channel->slug}}/{{$activity->id}}">
-                                    <h4>{{$activity->title}}</h4>
+                                <a href="/threads/{{$thread->channel->slug}}/{{$thread->id}}">
+                                    <h4>{{$thread->title}}</h4>
                                 </a>
 
-                                <div class="body">{{$activity->body}}</div>
+                                <div class="body">{{$thread->body}}</div>
                                 <div class="small pt-1 border-bottom mb-4">
-                                    Created by @include("threads._details", ["type"=>"index"])  {{$activity->created_at->diffForHumans()}}
+                                    Created by @include("threads._details", ["type"=>"index"])  {{$thread->created_at->diffForHumans()}}
                                 </div>
                             </article>
                         @empty

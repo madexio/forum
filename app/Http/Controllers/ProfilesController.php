@@ -17,14 +17,4 @@ class ProfilesController extends Controller
         return view("profiles.show")
             ->with(["profileUser"=>$user, "activities"=> Activity::feed($user)]);
     }
-
-    protected function getActivities(User $user): \Illuminate\Database\Eloquent\Collection
-    {
-        return $user->activities()
-            ->with("subject")->with("subject.user")
-            ->latest()->take(50)->get()
-            ->groupBy(function ($activity) {
-                return $activity->created_at->format("Y-m-d");
-            });
-    }
 }
