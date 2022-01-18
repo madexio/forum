@@ -34,6 +34,7 @@ use Illuminate\Support\Facades\Cache;
 class Reply extends Model
 {
     use HasFactory;
+    use RecordsActivity;
 
     protected $guarded = [];
     protected $with = ["user", "favourites"];

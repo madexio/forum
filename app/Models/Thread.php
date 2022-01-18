@@ -37,6 +37,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Thread extends Model
 {
     use HasFactory;
+    use RecordsActivity;
 
     protected $guarded = [];
     protected $with = ["user", "channel"];
