@@ -11,6 +11,7 @@
                             <span class="flex">
                                 {{$thread->title}}
                             </span>
+                            @can("update", $thread)
                             <form action="/threads/{{$thread->channel->slug}}/{{$thread->id}}"
                                   method="post">
                                 @csrf
@@ -19,6 +20,7 @@
                                         class="btn btn-link">Delete Post
                                 </button>
                             </form>
+                            @endcan
                         </div>
                     </div>
 

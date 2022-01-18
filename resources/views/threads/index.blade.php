@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 @foreach ($threads as $thread)
-                    <div class="card mb-4">
+                    <div cl ass="card mb-4">
                         <div class="card-header">
                             <div class="level">
                                     <a href="/threads/{{$thread->channel->slug}}/{{$thread->id}}"

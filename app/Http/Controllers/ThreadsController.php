@@ -6,6 +6,7 @@ use App\Filters\ThreadFilters;
 use App\Models\Channel;
 use App\Models\Thread;
 use App\Models\User;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -67,6 +68,9 @@ class ThreadsController extends Controller
 
     public function destroy(String $channel_slug, Thread $thread)
     {
+
+        $this->authorize("update", $thread);
+
         $thread->replies()->delete();
         $thread->delete();
         if (request()->wantsJson())

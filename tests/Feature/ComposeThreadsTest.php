@@ -29,8 +29,8 @@ class ComposeThreadsTest extends TestCase
     /** @test */
     public function an_authenticated_user_can_create_thread()
     {
-        $this->signIn();
         $this->withoutExceptionHandling();
+        $this->signIn();
         $thread   = Thread::factory()->make();
         $response = $this->post("/threads", $thread->toArray());
         $this->get($response->headers->get("Location"))->assertSee($thread->title)->assertSee($thread->body);
@@ -68,8 +68,9 @@ class ComposeThreadsTest extends TestCase
     /** @test */
     public function it_can_be_deleted_by_auth_user()
     {
-        $this->signIn();
-        $threadToBeDeleted = Thread::factory()->create();
+        $user = User::factory()->create();
+        $this->signIn($user);
+        $threadToBeDeleted = Thread::factory()->create(["user_id" => $user->id]);
         Reply::factory()->create(["thread_id" => $threadToBeDeleted->id]);
         $this->assertEquals(1, Thread::count());
         $this->assertEquals(1, Reply::count());
@@ -86,6 +87,11 @@ class ComposeThreadsTest extends TestCase
         $this->assertEquals(1, Thread::count());
         $this->json("DELETE", "threads/{$threadToBeDeleted->channel->slug}/$threadToBeDeleted->id", $threadToBeDeleted->toArray());
         $this->assertEquals(1, Thread::count());
+
+        $this->signIn();
+        $this->json("DELETE", "threads/{$threadToBeDeleted->channel->slug}/$threadToBeDeleted->id", $threadToBeDeleted->toArray());
+        $this->assertEquals(1, Thread::count());
+
     }
 
     public function publishThread($overrides = []): TestResponse
