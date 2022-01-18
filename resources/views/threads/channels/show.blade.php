@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-header">Forum Threads</div>
                     <div class="card-body">
-                        @foreach ($threads as $thread)
+                        @forelse ($threads as $thread)
                             <article>
                                 <a href="/threads/{{$thread->channel->slug}}/{{$thread->id}}">
                                     <h4>{{$thread->title}}</h4>
@@ -18,7 +18,9 @@
                                     Created by @include("threads._details", ["type"=>"index"])  {{$thread->created_at->diffForHumans()}}
                                 </div>
                             </article>
-                        @endforeach
+                        @empty
+                            <p>These are not the posts you are looking for.</p>
+                        @endforelse
                     </div>
                 </div>
             </div>
