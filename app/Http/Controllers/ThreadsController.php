@@ -67,7 +67,6 @@ class ThreadsController extends Controller
 
     public function destroy(String $channel_slug, Thread $thread)
     {
-        $thread->replies()->delete();
         $thread->delete();
         if (request()->wantsJson())
         {

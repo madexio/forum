@@ -43,6 +43,14 @@ class Thread extends Model
     protected $with = ["user", "channel"];
     protected $withCount = ["replies"];
 
+    protected static function boot()
+    {
+        parent::boot();
+        static::deleting(function ($thread){
+            $thread->replies->each->delete();
+        });
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

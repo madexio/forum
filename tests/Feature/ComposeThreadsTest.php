@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 
+use App\Models\Activity;
 use App\Models\Channel;
 use App\Models\Reply;
 use App\Models\Thread;
@@ -73,9 +74,11 @@ class ComposeThreadsTest extends TestCase
         Reply::factory()->create(["thread_id" => $threadToBeDeleted->id]);
         $this->assertEquals(1, Thread::count());
         $this->assertEquals(1, Reply::count());
+        $this->assertEquals(2, Activity::count());
         $this->json("DELETE", "threads/{$threadToBeDeleted->channel->slug}/$threadToBeDeleted->id", $threadToBeDeleted->toArray());
         $this->assertEquals(0, Thread::count());
         $this->assertEquals(0, Reply::count());
+        $this->assertEquals(0, Activity::count());
 
     }
 
