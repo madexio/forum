@@ -9,9 +9,6 @@
                         <div>
                             <h1>{{$profileUser->name}}</h1>
                         </div>
-                        <div>
-                            <small>Member since {{$profileUser->created_at->diffForHumans()}}</small>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -19,29 +16,12 @@
         <hr>
         <div class="row justify-content-center">
             <div class="col-md-8">
-                @foreach ($threads as $thread)
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <div class="level">
-                                <a href="/threads/{{$thread->channel->slug}}/{{$thread->id}}"
-                                   class="flex"
-                                   style="font-size: 30px">
-                                    {{$thread->title}}
-                                </a>
+                @foreach ($activities as $date => $activity)
+                    <h3 class="header">{{$date}}</h3>
+                    @foreach ($activity as $record)
 
-                                <a href="/threads/{{$thread->channel->slug}}/{{$thread->id}}">
-                                    <strong>{{$thread->replies_count}} {{Str::plural("comment", $thread->replies_count)}}</strong>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="body">{{$thread->body}}</div>
-                            <div class="small border-bottom">
-                                Created
-                                by @include("threads._details", ["type"=>"index"])  {{$thread->created_at->diffForHumans()}}
-                            </div>
-                        </div>
-                    </div>
+                        @include("profiles.activities." . $record->type, ["activity" => $record])
+                    @endforeach
                 @endforeach
             </div>
         </div>

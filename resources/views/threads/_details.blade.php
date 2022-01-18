@@ -21,7 +21,7 @@
     </div>
     <div>{{$thread->replies->count()}} {{Str::plural("comment", $thread->replies_count)}}</div>
 @elseif($type=="reply")
-    <a href="/profiles/{{$thread->user->name}}">
+    <a href="/profiles/{{$reply->user->name}}">
         {{$reply->user->name}}
     </a>
 @endif
